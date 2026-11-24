@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Thiệp Mời Tốt Nghiệp</title>
+  <meta name="description" content="Thiệp mời lễ tốt nghiệp kết hợp Mini-game Hành trình 4 năm phong cách Axie Lunacia!" />
+  <meta name="theme-color" content="#236b38" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="locked">
+  <!-- Confetti canvas -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Nút bật/tắt nhạc nền kiểu huy hiệu gỗ -->
+  <button
+    class="sound"
+    id="soundBtn"
+    type="button"
+    aria-label="Bật hoặc tắt nhạc nền"
+    aria-pressed="false"
+    title="Nhạc nền"
+  >
+    <span class="note" aria-hidden="true">♪</span>
+  </button>
+
+  <audio id="bgm" loop preload="auto"></audio>
+
+  <!-- =========================================================
+       MÀN HÌNH MỞ PHONG BÌ NHIỆM VỤ (INTRO)
+       ========================================================= -->
+  <div id="intro" role="dialog" aria-modal="true" aria-label="Thư mời nhiệm vụ tốt nghiệp">
+    <div class="hud-top">
+      <div class="hud-avatar">
+        <img id="hudAvatar" alt="Avatar" />
+      </div>
+      <div class="wood-plaque">
+        <div class="hud-row">
+          <span class="hud-tag" id="hudTag">MinhAnh#2026</span>
+          <span class="hud-lv" id="hudLv">Lv.2026</span>
+        </div>
+        <div class="xp-bar">
+          <div class="xp-fill"></div>
+          <span class="xp-text" id="hudXp">4000 / 4000 EXP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-center">
+      <div class="quest-pill">
+        <span class="q-bang">!</span>
+        <span>BẠN CÓ MỘT LÁ THƯ MỚI</span>
+      </div>
+
+      <div
+        id="env"
+        class="stage"
+        role="button"
+        tabindex="0"
+        aria-label="Xé phong bì để mở thư mời"
+      >
+        <div class="letter" aria-hidden="true">
+          <div class="l-wood-bar">
+            <span class="l-rarity">★ GRADUATE CARD</span>
+            <span class="l-yr" id="letterYear">2026</span>
+          </div>
+          <div class="l-photo-wrap">
+            <img class="l-photo" id="letterPhoto" alt="Chân dung tân cử nhân" />
+          </div>
+          <div class="l-foot">
+            <p class="l-name game-font" id="letterName"></p>
+            <p class="l-sub" id="letterSub"></p>
+            <div class="l-stats">
+              <span class="stat-pill em">🎓 Lv.2026</span>
+              <span class="stat-pill sky">⚔️ Vượt 4 ải</span>
+              <span class="stat-pill gold">💐 04.12</span>
+            </div>
+          </div>
+          <p class="l-tap">CHẠM ĐỂ VÀO LỄ HỘI ▶</p>
+        </div>
+
+        <div class="e-front">
+          <div class="strip-wrap" id="tearArea">
+            <div class="peel" id="peel">
+              <span class="peel-txt">✂ XÉ Ở ĐÂY</span>
+              <span class="dot" aria-hidden="true"></span>
+            </div>
+          </div>
+
+          <div class="e-meta">
+            <div class="postmark">
+              <span id="postmarkDate">04.12</span>
+              <small id="postmarkYear">2026</small>
+            </div>
+            <div class="stamp" aria-hidden="true">
+              <span class="stamp-ico">🎓</span>
+              <span class="stamp-yr" id="stampYear">2026</span>
+            </div>
+          </div>
+
+          <div class="addr">
+            <span class="addr-lbl">NHIỆM VỤ CHUNG VUI GỬI ĐẾN</span>
+            <b class="to-name game-font">những người thân yêu</b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-bottom">
+      <div class="mascot-peek">
+        <img id="introMascot" alt="Các linh vật tốt nghiệp" />
+      </div>
+      <p class="intro-hint">Vuốt ngang hoặc chạm mép trên để mở thư · bật loa nhé ♪</p>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       CỘT NỘI DUNG CHÍNH (480px)
+       ========================================================= -->
+  <main id="main">
+    <!-- Section 1: Bảng Gỗ Thiệp Mời -->
+    <section class="sec sec-1" id="secInvite">
+      <div class="fit">
+        <article class="card wood-card r">
+          <div class="wood-sign">
+            <span>THƯ MỜI TỐT NGHIỆP</span>
+          </div>
+
+          <p class="c-kicker">THÂN MỜI</p>
+          <p class="to-guest game-font">Những người thân yêu</p>
+          <p class="c-intro">đến tham dự ngày hoàn thành hành trình đại học của</p>
+
+          <h2 class="c-name game-font" id="cardName"></h2>
+          <p class="c-role" id="cardRole"></p>
+
+          <div class="orn-line" aria-hidden="true"><span>★</span></div>
+
+          <div class="c-time-pill" id="cardTime"></div>
+
+          <div class="c-date">
+            <div class="c-col">
+              <span id="cardMonth"></span>
+            </div>
+            <div class="c-col c-day">
+              <strong class="game-font" id="cardDay"></strong>
+            </div>
+            <div class="c-col">
+              <span id="cardYear"></span>
+            </div>
+          </div>
+
+          <div class="c-venue">
+            <h3 class="c-place game-font" id="cardPlace"></h3>
+            <p class="c-sub game-font" id="cardPlaceSub"></p>
+            <p class="c-addr" id="cardAddr"></p>
+          </div>
+
+          <div class="card-actions">
+            <a
+              id="dirLink"
+              class="game-btn btn-blue btn-sm"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🧭 CHỈ ĐƯỜNG
+            </a>
+            <a
+              id="playQuestBtn"
+              class="game-btn btn-red btn-sm"
+              href="#secGame"
+            >
+              ⚔️ CHƠI GAME 4 NĂM
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 2: MINI-GAME LUNACIA SURVIVAL (NĂM 1 -> TỐT NGHIỆP) -->
+    <section class="sec sec-game" id="secGame">
+      <div class="fit">
+        <header class="sec-head r">
+          <div class="wood-mini">MINIGAME · VƯỢT ẢI ĐẠI HỌC</div>
+          <h2 class="game-font lead game-title">Hành Trình 4 Năm</h2>
+        </header>
+
+        <div class="game-shell r">
+          <!-- HUD trong game -->
+          <div class="g-hud">
+            <span class="g-stage-pill" id="gStageBadge">NĂM 1 · LV.1</span>
+            <div class="g-xp-wrap">
+              <div class="g-xp-fill" id="gXpFill"></div>
+              <span class="g-xp-txt" id="gXpText">0%</span>
+            </div>
+            <div class="g-score-box">
+              <span>ĐRL <b id="gScore">000</b></span>
+              <span>HI <b id="gHi">000</b></span>
+            </div>
+          </div>
+
+          <!-- Khung Canvas Game -->
+          <div class="g-canvas-wrap">
+            <canvas id="gameCanvas" width="420" height="236" aria-label="Mini game vượt ải đại học"></canvas>
+
+            <!-- Màn hình chờ bắt đầu -->
+            <div class="g-overlay" id="gStartScreen">
+              <p class="g-ov-title game-font">SẴN SÀNG LÊN LV.2026?</p>
+              <p class="g-ov-sub">
+                Né <b>Giải tích 1-2-3</b>, <b>Vật lý đại cương</b>, <b>Đại số</b> &amp; <b>Đồ án Tốt nghiệp</b>!
+              </p>
+              <button class="game-btn btn-red btn-sm" id="btnStartGame" type="button">
+                ▶ PLAY · BẮT ĐẦU
+              </button>
+            </div>
+
+            <!-- Màn hình TOANG RỒI! (Game Over kiểu Sanbaka x Axie) -->
+            <div class="g-overlay g-gameover" id="gOverScreen" hidden>
+              <div class="go-card">
+                <div class="go-left">
+                  <div class="go-face" aria-hidden="true">✕ ﹏ ✕</div>
+                  <span class="go-kaomoji">toang rồi...</span>
+                </div>
+                <div class="go-right">
+                  <div class="go-top">
+                    <span class="go-title game-font">TOANG RỒI!</span>
+                    <span class="go-rec" id="goNewRec" hidden>KỶ LỤC MỚI!</span>
+                  </div>
+                  <p class="go-msg" id="goMsg"></p>
+                  <p class="go-stats">
+                    ĐRL: <b id="goDrl">0</b> · KỶ LỤC: <b id="goHi">0</b> · <b id="goLvl">NĂM 1</b>
+                  </p>
+                  <div class="go-btns">
+                    <button class="game-btn btn-red btn-xs" id="btnRetry" type="button">▶ HỌC LẠI</button>
+                    <a class="game-btn btn-blue btn-xs" href="#secRsvp">📜 GHI LƯU BÚT</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Màn hình VICTORY TỐT NGHIỆP -->
+            <div class="g-overlay g-victory" id="gWinScreen" hidden>
+              <div class="win-card">
+                <p class="win-crown">🎓 ★ TỐT NGHIỆP THÀNH CÔNG! ★</p>
+                <p class="win-sub">
+                  Chúc mừng bạn đã vượt sạch <b>Giải tích 1-2-3</b>, <b>Vật lý ĐC</b>, <b>Đại số</b> &amp; bảo vệ thành công <b>Đồ án Tốt nghiệp</b>!
+                </p>
+                <p class="win-stats">
+                  ĐRL: <b id="winDrl">100</b> · XẾP LOẠI: <b>XUẤT SẮC</b>
+                </p>
+                <div class="go-btns">
+                  <button class="game-btn btn-gold btn-xs" id="btnPlayAgain" type="button">🔄 CHƠI LẠI</button>
+                  <a class="game-btn btn-red btn-xs" href="#secRsvp">✍️ ĐẾN LỄ TỐT NGHIỆP</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Điều khiển game bên dưới khung -->
+          <div class="g-controls">
+            <button class="ctrl-btn ctrl-duck" id="btnDuck" type="button">
+              <span>▼ CÚI (NÉ)</span>
+            </button>
+            <div class="ctrl-mid">
+              <button class="ctrl-mini" id="btnSfx" type="button" aria-pressed="true" title="Âm thanh game">♪</button>
+              <button class="ctrl-mini" id="btnPause" type="button" title="Tạm dừng">II</button>
+            </div>
+            <button class="ctrl-btn ctrl-jump" id="btnJump" type="button">
+              <span>▲ NHẢY</span>
+            </button>
+          </div>
+          <p class="g-hint">Chạm nút hoặc phím <b>↑ / Space</b> để nhảy (giữ = nhảy cao) · <b>↓</b> để cúi</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Chân dung Pop-out + Đếm ngược -->
+    <section class="sec sec-2" id="secCountdown">
+      <div class="fit">
+        <figure class="pop tall" id="tallPop">
+          <div class="bg"><img id="tallBgImg" alt="" /></div>
+          <div class="line" aria-hidden="true"></div>
+          <img class="ppl" id="tallPortraitImg" alt="Chân dung cầm bằng tốt nghiệp" />
+          <figcaption class="pop-badge">★ GRADUATE 2026</figcaption>
+        </figure>
+
+        <div class="cd-wrap r">
+          <div class="wood-mini" id="cdLabel">THỜI GIAN CÒN LẠI</div>
+          <div class="count" role="timer" aria-live="off">
+            <div class="box"><b class="game-font" id="cdD">00</b><span>Ngày</span></div>
+            <div class="box"><b class="game-font" id="cdH">00</b><span>Giờ</span></div>
+            <div class="box"><b class="game-font" id="cdM">00</b><span>Phút</span></div>
+            <div class="box"><b class="game-font" id="cdS">00</b><span>Giây</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Album Trang 1 — Thước Phim Thử Thách Vượt Ải 4 Năm -->
+    <section class="sec sec-3" id="secAlbum">
+      <div class="fit">
+        <header class="sec-head r">
+          <div class="wood-mini">THƯỚC PHIM VƯỢT ẢI</div>
+          <h2 class="game-font lead">Từ Năm 1 Đến Đồ Án</h2>
+        </header>
+        <div class="album-grid" id="albumPage1"></div>
+      </div>
+    </section>
+
+    <!-- Section 5: Album Trang 2 -->
+    <section class="sec sec-4">
+      <div class="fit">
+        <header class="sec-head r">
+          <div class="wood-mini">BỘ SƯU TẬP KỶ NIỆM</div>
+          <h2 class="game-font lead">Khoảnh Khắc Thanh Xuân</h2>
+        </header>
+        <div class="album-grid" id="albumPage2"></div>
+      </div>
+    </section>
+
+    <!-- Section 6: Album Trang 3 -->
+    <section class="sec sec-5">
+      <div class="fit">
+        <div class="album-grid" id="albumPage3"></div>
+      </div>
+    </section>
+
+    <!-- Section 7: Bìa Lời Cảm Ơn -->
+    <section class="sec sec-6" id="secThanks">
+      <div class="fit">
+        <figure class="pop arch">
+          <div class="bg"><img id="archBgImg" alt="" /></div>
+          <div class="line" aria-hidden="true"></div>
+          <img class="ppl" id="archPortraitImg" alt="Chân dung dưới mái vòm trường" />
+        </figure>
+        <h2 class="game-font arch-title r">Lời cảm ơn</h2>
+      </div>
+    </section>
+
+    <!-- Section 8: Cuộn Giấy Thư Cảm Ơn -->
+    <section class="sec sec-7">
+      <div class="fit">
+        <article class="thanks scroll-parchment r">
+          <div class="wood-mini">NHẬT KÝ THANH XUÂN</div>
+          <div class="thanks-body" id="thanksBody"></div>
+          <cite class="game-font" id="thanksSign"></cite>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 9: Bảng Đăng Ký Tham Gia (RSVP) -->
+    <section class="sec sec-8" id="secRsvp">
+      <div class="fit">
+        <header class="sec-head r">
+          <div class="wood-mini">HỒI ÂM &amp; LƯU BÚT</div>
+          <h2 class="game-font lead"><span class="to-name">Bạn</span> sẽ đến chứ?</h2>
+          <p class="gb-desc">
+            Xác nhận tham gia tổ đội chung vui hoặc để lại lời nhắn cổ vũ nhé!
+          </p>
+        </header>
+
+        <form class="gb r" id="gb" novalidate>
+          <input
+            class="field"
+            type="text"
+            name="name"
+            maxlength="60"
+            required
+            placeholder="Tên của bạn (ví dụ: Minh Quân)"
+            autocomplete="name"
+          />
+
+          <textarea
+            class="field"
+            name="message"
+            maxlength="1000"
+            rows="3"
+            placeholder="Gửi lời chúc đến tân cử nhân..."
+          ></textarea>
+
+          <div class="select-wrap">
+            <select class="field" name="attend" required aria-label="Xác nhận tham dự">
+              <option value="yes">Chắc chắn rồi! (+100 Niềm vui)</option>
+              <option value="no">Tiếc quá, mình bận mất rồi</option>
+            </select>
+          </div>
+
+          <label class="file" for="photoInput">
+            <input id="photoInput" type="file" name="photo" accept="image/*" hidden />
+            <span id="fileLabel">📷 Gửi kèm một tấm ảnh (không bắt buộc)</span>
+            <img id="preview" alt="Xem trước ảnh đính kèm" hidden />
+          </label>
+
+          <input
+            class="hp"
+            type="text"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
+
+          <button class="game-btn btn-red" id="gbBtn" type="submit">XÁC NHẬN</button>
+          <p class="rsvp-msg" id="rsvpMsg" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Section 10: Bảng Tin Sổ Lưu Bút -->
+    <section class="sec grow sec-9" id="wallSec">
+      <div class="wall-wrap">
+        <header class="sec-head r">
+          <div class="wood-mini">BẢNG TIN THỊ TRẤN</div>
+          <h2 class="game-font lead">Sổ lưu bút</h2>
+        </header>
+        <div class="wall-list" id="wallList"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Thanh Dock Điều Hướng Kiểu Game ở đáy -->
+  <nav class="rpg-dock" aria-label="Điều hướng nhanh">
+    <a class="dock-item" href="#secInvite" data-sec="secInvite">
+      <span class="dock-ico">📜</span>
+      <span class="dock-lbl">Thiệp</span>
+    </a>
+    <a class="dock-item has-dot" href="#secGame" data-sec="secGame">
+      <span class="dock-ico">🎮</span>
+      <span class="dock-lbl">Game</span>
+    </a>
+    <a class="dock-item" href="#secCountdown" data-sec="secCountdown">
+      <span class="dock-ico">⏳</span>
+      <span class="dock-lbl">Đếm ngược</span>
+    </a>
+    <a class="dock-item" href="#secAlbum" data-sec="secAlbum">
+      <span class="dock-ico">🎬</span>
+      <span class="dock-lbl">Thử thách</span>
+    </a>
+    <a class="dock-item" href="#secRsvp" data-sec="secRsvp">
+      <span class="dock-ico">✍️</span>
+      <span class="dock-lbl">Lưu bút</span>
+    </a>
+  </nav>
+
+  <!-- Closing full-bleed band -->
+  <section class="ket" id="closingSec">
+    <img class="ket-bg" id="closingImg" alt="Ảnh chân dung kết thiệp" />
+    <div class="ket-veil" aria-hidden="true"></div>
+    <div class="ket-content">
+      <h2 class="game-font ket-title r">Hẹn gặp <span class="to-name">bạn</span>!</h2>
+      <p class="ket-quote r" id="closingQuote"></p>
+      <p class="game-font ket-thanks r">Thank you!</p>
+      <div class="ket-mascots">
+        <img id="closingMascot" alt="Các linh vật chúc mừng tốt nghiệp" />
+      </div>
+      <p class="ket-meta" id="closingMeta"></p>
+    </div>
+  </section>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
